@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+model User {
+  id                   String                @id @default(uuid())
+  email                String                @unique
+  password             String
+  monitors             Monitor[]
+  notificationChannels NotificationChannel[]
+}
+
+model Monitor {
+  id               String      @id @default(uuid())
+  name             String
+  url              String
+  method           String      @default("GET")
+  headers          Json?       // To store { "Authorization": "Bearer..." }
+  interval         Int         @default(60)
+  timeout          Int         @default(10000) // Timeout in ms
+  failureThreshold Int         @default(3)     // Alert after X failures
+  
+  // High-performance status tracking
+  status           MonitorStatus @default(PENDING)
+  lastCheck        DateTime?
+  isActive         Boolean     @default(true)
+  
+  userId           String
+  user             User        @relation(fields: [userId], references: [id])
+  
+  checks           Check[]
+  incidents        Incident[]
+  createdAt        DateTime    @default(now())
+}
+
+enum MonitorStatus {
+  UP
+  DOWN
+  PENDING
+}
+
+model Check {
+  id         String   @id @default(uuid())
+  monitorId  String
+  monitor    Monitor  @relation(fields: [monitorId], references: [id], onDelete: Cascade)
+  statusCode Int?
+  latency    Int      // In ms
+  isUp       Boolean
+  errorMessage String?
+  timestamp  DateTime @default(now())
+
+  @@index([monitorId, timestamp]) // Optimized for dashboard charts
+}
+
+model Incident {
+  id        String    @id @default(uuid())
+  monitorId String
+  monitor   Monitor   @relation(fields: [monitorId], references: [id], onDelete: Cascade)
+  startedAt DateTime  @default(now())
+  endedAt   DateTime? // Null means the outage is ongoing
+  cause     String?
+}
+
+model NotificationChannel {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      ChannelType
+  value     String   // e.g., "dev-ops@company.com" or a Discord Webhook URL
+  isEnabled Boolean  @default(true)
+}
+
+enum ChannelType {
+  EMAIL
+  SLACK
+  DISCORD
+  WEBHOOK
+}
