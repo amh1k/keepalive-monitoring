@@ -2,9 +2,11 @@ import { Router } from "express";
 import {
   createMonitor,
   getAllMonitors,
-} from "../controller/monitor.controller.js";
+} from "../controllers/monitor.controller.js";
+import { validate } from "../middleware/validate.js";
+import { createMonitorSchema } from "../validations/monitor.validation.js";
 
 const router = Router();
-router.post("/", createMonitor);
+router.post("/", validate(createMonitorSchema), createMonitor);
 router.post("/", getAllMonitors);
 export default Router;
