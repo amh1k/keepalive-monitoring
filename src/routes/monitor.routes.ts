@@ -9,4 +9,4 @@ import { createMonitorSchema } from "../validations/monitor.validation.js";
 const router = Router();
 router.post("/", validate(createMonitorSchema), createMonitor);
 router.post("/", getAllMonitors);
-export default Router;
+export default router;
