@@ -7,3 +7,10 @@ export default defineConfig({
     environment: "node",
   },
 });
+// vi.mock("ioredis", () => {
+//   const Redis = require("ioredis-mock");
+//   return {
+//     Redis,
+//     default: Redis,
+//   };
+// });
