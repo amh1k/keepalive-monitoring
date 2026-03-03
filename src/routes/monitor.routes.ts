@@ -8,5 +8,5 @@ import { createMonitorSchema } from "../validations/monitor.validation.js";
 
 const router = Router();
 router.post("/", validate(createMonitorSchema), createMonitor);
-router.post("/", getAllMonitors);
+router.get("/", getAllMonitors);
 export default router;
