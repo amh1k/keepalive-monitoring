@@ -1,4 +1,4 @@
-import Redis from "ioredis";
+import IORedis from "ioredis";
 
 export const redisConfiguration = {
   host: process.env.REDIS_HOST || "localhost",
@@ -6,4 +6,4 @@ export const redisConfiguration = {
   maxRetriesPerRequest: null,
 };
 
-export const redis = new Redis(redisConfiguration);
+export const redis = new IORedis(redisConfiguration);
