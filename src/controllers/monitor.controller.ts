@@ -6,9 +6,15 @@ import { MonitorService } from "../services/monitor.service";
 export const createMonitor = async (req: Request, res: Response) => {
   try {
     const monitor = await MonitorService.create(req.body);
-    res.status(201).json(monitor);
+    res.status(201).json({
+      status: "success",
+      data: monitor,
+    });
   } catch (error) {
-    res.status(400).json({ error: "Invalid data or database error" });
+    res.status(400).json({
+      status: "fail",
+      message: "Invalid data or database error",
+    });
   }
 };
 

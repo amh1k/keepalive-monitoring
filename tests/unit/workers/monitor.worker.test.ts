@@ -5,6 +5,9 @@ import { prismaMock } from "../../singleton";
 import { monitorWorkerProcessor } from "../../../src/workers/monitor.worker";
 vi.mock("axios");
 const mockedAxios = axios as vi.Mocked<typeof axios>;
+vi.mock("../../../src/lib/prisma.js", () => ({
+  prisma: prismaMock,
+}));
 describe("Monitor Worker unit tests", () => {
   const mockJob = {
     data: { monitorId: "mon-123" },

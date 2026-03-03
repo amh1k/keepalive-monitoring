@@ -1,15 +1,14 @@
 import { PrismaClient } from "../generated/prisma/client.js";
-import { beforeEach, vi } from "vitest";
+// tests/singleton.ts
+
 import { mockDeep, mockReset, DeepMockProxy } from "vitest-mock-extended";
-import { prisma } from "../src/lib/prisma.js"; // Point to your real prisma file
+import { beforeEach, vi } from "vitest";
 
-vi.mock("../src/lib/prisma.js", () => ({
-  __esModule: true,
-  prisma: mockDeep<PrismaClient>(),
-}));
+// 1. Create the mock strictly using mockDeep
+export const prismaMock =
+  mockDeep<PrismaClient>() as unknown as DeepMockProxy<PrismaClient>;
 
+// 2. Clear it before every test to ensure isolation
 beforeEach(() => {
   mockReset(prismaMock);
 });
-
-export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
