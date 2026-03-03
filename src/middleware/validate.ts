@@ -22,7 +22,7 @@ export const validate = (schema: ZodSchema) => {
       }
       return res
         .status(500)
-        .json({ status: "errpr", message: "Internal server error" });
+        .json({ status: "error", message: "Internal server error" });
     }
   };
 };

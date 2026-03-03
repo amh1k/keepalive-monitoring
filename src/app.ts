@@ -5,7 +5,7 @@ import monitorRouter from "./routes/monitor.routes.js";
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use("/api/v1/monitor");
+app.use("/api/v1/monitor", monitorRouter);
 
 app.get("/health", (req: Request, res: Response) => {
   res.json({ status: "UP" });
