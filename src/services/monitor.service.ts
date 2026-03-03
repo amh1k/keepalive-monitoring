@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.js";
+import { monitorQueue } from "../queues/monitor.queue.js";
 
 export class MonitorService {
   static async create(data: {
@@ -14,6 +15,15 @@ export class MonitorService {
         isActive: true,
       },
     });
+    await monitorQueue.add(
+      `ping-${monitor.id}`,
+      { monitorId: monitor.id },
+      {
+        repeat: {
+          every: monitor.interval * 1000,
+        },
+      },
+    );
     return monitor;
   }
 

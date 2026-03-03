@@ -7,6 +7,6 @@ import { validate } from "../middleware/validate.js";
 import { createMonitorSchema } from "../validations/monitor.validation.js";
 
 const router = Router();
-router.post("/", validate(createMonitorSchema), createMonitor);
-router.get("/", getAllMonitors);
+router.post("/create", validate(createMonitorSchema), createMonitor);
+router.get("/getAll", getAllMonitors);
 export default router;

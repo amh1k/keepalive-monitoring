@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "dotenv -e .env.test -- vitest run tests/integration"
   },
   "keywords": [],
   "author": "",
@@ -15,16 +17,26 @@
     "@types/express": "^5.0.6",
     "@types/node": "^25.3.3",
     "@types/pg": "^8.18.0",
+    "@types/supertest": "^7.2.0",
+    "@vitest/coverage-v8": "^4.0.18",
+    "dotenv-cli": "^11.0.0",
+    "ioredis-mock": "^8.13.1",
     "prisma": "^7.4.2",
+    "supertest": "^7.2.2",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18",
+    "vitest-mock-extended": "^3.1.0"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.4.2",
     "@prisma/client": "^7.4.2",
+    "axios": "^1.13.6",
+    "bullmq": "^5.70.1",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "ioredis": "^5.10.0",
     "pg": "^8.19.0",
     "zod": "^4.3.6"
   }
