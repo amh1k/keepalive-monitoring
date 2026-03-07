@@ -29,6 +29,8 @@ model Monitor {
   interval         Int         @default(60)
   timeout          Int         @default(10000) // Timeout in ms
   failureThreshold Int         @default(3)     // Alert after X failures
+  currentFails     Int         @default(0)
+
   
   // High-performance status tracking
   status           MonitorStatus @default(PENDING)
