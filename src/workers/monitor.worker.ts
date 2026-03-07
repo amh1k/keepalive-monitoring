@@ -101,7 +101,6 @@ export const monitorWorkerProcessor = async (job: any) => {
           userId: monitor.userId,
         });
       } else {
-        // STILL FAILING BUT NOT DOWN YET (or already marked DOWN)
         await tx.monitor.update({
           where: { id: monitorId },
           data: { currentFails: newFailCount, lastCheck: new Date() },

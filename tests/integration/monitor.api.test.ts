@@ -2,10 +2,16 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import request from "supertest";
 import app from "../../src/app";
 import { prisma } from "../../src/lib/prisma";
+import { notificationQueue } from "../../src/queues/notification.queue";
 
 vi.mock("../../src/queues/monitor.queue", () => ({
   monitorQueue: {
     add: vi.fn().mockResolvedValue({ id: "job-123" }),
+  },
+}));
+vi.mock("../../src/queues/notification.queue", () => ({
+  notificationQueue: {
+    add: vi.fn(),
   },
 }));
 
