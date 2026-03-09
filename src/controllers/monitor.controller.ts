@@ -5,7 +5,8 @@ import { MonitorService } from "../services/monitor.service";
 
 export const createMonitor = async (req: Request, res: Response) => {
   try {
-    const monitor = await MonitorService.create(req.body);
+    const userId = (req as any).user.id;
+    const monitor = await MonitorService.create({ ...req.body, userId });
     res.status(201).json({
       status: "success",
       data: monitor,

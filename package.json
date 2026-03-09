@@ -6,13 +6,15 @@
   "scripts": {
     "test": "vitest",
     "test:unit": "vitest run tests/unit",
-    "test:integration": "dotenv -e .env.test -- vitest run tests/integration"
+    "test:integration": "dotenv -e .env.test -- vitest run tests/integration --file-parallelism=false"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.3.3",
@@ -31,12 +33,17 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.4.2",
     "@prisma/client": "^7.4.2",
+    "@types/jsonwebtoken": "^9.0.10",
     "axios": "^1.13.6",
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.2",
     "bullmq": "^5.70.1",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "ioredis": "^5.10.0",
+    "jsonwebtoken": "^9.0.3",
     "pg": "^8.19.0",
     "zod": "^4.3.6"
   }
