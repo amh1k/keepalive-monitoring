@@ -110,6 +110,9 @@ export const loginUser = async (req: Request, res: Response) => {
   }
 };
 export const logoutUser = async (req: Request, res: Response) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "user context missing" });
+  }
   const userId = req.user!.id;
   const updateUser = await prisma.user.update({
     where: { id: userId },
