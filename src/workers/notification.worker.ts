@@ -3,8 +3,6 @@ import { httpClient } from "../lib/http.js";
 
 export const notificationWorkerProcessor = async (job: any) => {
   const { monitorName, status, userId, url, incidentId } = job.data;
-
-  // 1. Fetch Incident details if ID exists (Transition from UP -> DOWN)
   let incidentDetails = "";
   if (incidentId) {
     const incident = await prisma.incident.findUnique({

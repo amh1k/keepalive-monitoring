@@ -10,7 +10,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use("/api/v1/monitor", monitorRouter);
 app.use("/api/v1/user", userRouter);
-app.use("/api/v1/notifications");
+app.use("/api/v1/notifications", notificationRouter);
 
 // app.get("/health", (req: Request, res: Response) => {
 //   res.json({ status: "UP" });
