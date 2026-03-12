@@ -1,0 +1,20 @@
+1. 🌍 Simulated Multi-Region Checks (The "Infrastructure" Flex)
+Concept: Add a region field to checks.
+Implementation: We can simulate workers running in us-east-1, eu-west-1, etc. An alert is only fired if multiple regions agree the service is down (preventing false alarms).
+2. 🔐 SSL/TLS Expiry Monitoring
+This is a "real-world" problem that many basic monitoring tools miss.
+Concept: Add a background job to check the SSL certificate expiry date of URLs.
+Shine: It shows you understand networking and can handle scheduled "long-tail" tasks.
+3. 🛡️ Fault Tolerance & Retries (BullMQ Mastery)
+Concept: Implement intelligent retry strategies. If a check fails, do a "fast-retry" (e.g., 3 retries 5 seconds apart) before declaring it DOWN.
+Shine: Demonstrates knowledge of distributed systems and how to avoid "alert fatigue."
+4. 📝 Custom Content Matching (Advanced Checks)
+Concept: Instead of just checking if the status is 200, let the user specify a string (e.g., "Welcome to Dashboard") that must be present in the HTML.
+Shine: Shows you’re thinking about the application layer, not just the network layer.
+5. 🏗️ Public Status Page Generator
+Concept: Create an API or a simple static page that displays the "current health" of a user's monitors.
+Shine: This is a tangible output that you can link to directly from your resume.
+6. 📧 Multiple Notification Adapters (Clean Code Pattern)
+Concept: Implement the Strategy Pattern for notifications. We already have Discord; let's add Slack and Email (using Resend or Postmark).
+Shine: Demonstrates solid software design patterns and clean architecture.
+Which of these would you like to build first? (I recommend starting with 1 or 6 as they demonstrate the strongest architectural skills.)
