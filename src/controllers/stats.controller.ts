@@ -82,7 +82,7 @@ export const getUptimePercentage = async (req: Request, res: Response) => {
         const successfulStats = await prisma.check.count({
           where: {
             monitorId: m.id,
-            statusCode: { lte: 400 },
+            statusCode: { lt: 400 },
           },
         });
         const total = m._count.checks;
@@ -97,10 +97,8 @@ export const getUptimePercentage = async (req: Request, res: Response) => {
     );
     return res.status(200).json({ status: "success", data: uptimeStats });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        message: "Failed to calculate uptime percentage for each monitor",
-      });
+    return res.status(500).json({
+      message: "Failed to calculate uptime percentage for each monitor",
+    });
   }
 };
