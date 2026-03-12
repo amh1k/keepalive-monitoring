@@ -1,6 +1,8 @@
 import { prisma } from "../lib/prisma.js";
 import { httpClient } from "../lib/http.js";
 import { notificationQueue } from "../queues/notification.queue";
+import { Worker } from "bullmq";
+import { redisConfiguration } from "../lib/redis.js";
 
 export const monitorWorkerProcessor = async (job: any) => {
   const { monitorId } = job.data;
@@ -109,3 +111,6 @@ export const monitorWorkerProcessor = async (job: any) => {
     }
   });
 };
+const worker = new Worker("monitor-pings", monitorWorkerProcessor, {
+  connection: redisConfiguration,
+});
