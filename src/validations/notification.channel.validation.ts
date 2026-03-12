@@ -1,6 +1,9 @@
 import z from "zod";
 
 export const notificationChannelSchema = z.object({
-  type: z.enum(["DISCORD", "EMAIL", "SLACK"]),
-  value: z.string().url("Must be a valid URL"),
+  body: z.object({
+    // Your middleware looks for this 'body' key!
+    type: z.enum(["DISCORD", "EMAIL", "SLACK"]),
+    value: z.string().url(),
+  }),
 });

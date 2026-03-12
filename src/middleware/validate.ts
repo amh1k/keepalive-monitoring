@@ -3,12 +3,14 @@ import { ZodType, ZodError, ZodAny } from "zod";
 
 export const validate = (schema: ZodType) => {
   return async (req: Request, res: Response, next: NextFunction) => {
+    // console.log(req.body);
     try {
       const validatedData: any = await schema.parseAsync({
         body: req.body,
         query: req.query,
         params: req.params,
       });
+      ``;
       req.body = validatedData.body;
 
       // ONLY assign if the schema actually validated them
