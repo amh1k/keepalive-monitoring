@@ -7,10 +7,13 @@ export class MonitorService {
     url: string;
     userId: string;
     interval: number;
+    failureThreshold?: number;
   }) {
+    console.log("Failure threshold is: ", data?.failureThreshold);
     const monitor = await prisma.monitor.create({
       data: {
         ...data,
+        failureThreshold: data.failureThreshold ?? 3,
         status: "PENDING",
         isActive: true,
       },

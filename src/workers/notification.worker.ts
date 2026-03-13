@@ -57,6 +57,7 @@ export const notificationWorkerProcessor = async (job: any) => {
       );
     }
   }
+  return { delivered: true };
 };
 const worker = new Worker("notification-pings", notificationWorkerProcessor, {
   connection: redisConfiguration,
