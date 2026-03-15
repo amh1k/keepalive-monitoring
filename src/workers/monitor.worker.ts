@@ -44,6 +44,7 @@ export const monitorWorkerProcessor = async (job: any) => {
   });
 
   // 2. Handle State Transitions in Transaction
+
   await prisma.$transaction(async (tx) => {
     if (isUp) {
       if (monitor.status === "DOWN") {
@@ -101,6 +102,7 @@ export const monitorWorkerProcessor = async (job: any) => {
           status: "DOWN",
           incidentId: incident.id,
           userId: monitor.userId,
+          url: monitor.url,
         });
       } else {
         await tx.monitor.update({
