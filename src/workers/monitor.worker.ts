@@ -113,4 +113,8 @@ export const monitorWorkerProcessor = async (job: any) => {
 };
 const worker = new Worker("monitor-pings", monitorWorkerProcessor, {
   connection: redisConfiguration,
+  limiter: {
+    max: 10, // Process max 10 jobs
+    duration: 1000, // Per 1 second
+  },
 });
