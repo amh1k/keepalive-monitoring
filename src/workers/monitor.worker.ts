@@ -1,6 +1,8 @@
 import { prisma } from "../lib/prisma.js";
 import { httpClient } from "../lib/http.js";
 import { notificationQueue } from "../queues/notification.queue";
+import { Worker } from "bullmq";
+import { redisConfiguration } from "../lib/redis.js";
 
 export const monitorWorkerProcessor = async (job: any) => {
   const { monitorId } = job.data;
@@ -42,6 +44,7 @@ export const monitorWorkerProcessor = async (job: any) => {
   });
 
   // 2. Handle State Transitions in Transaction
+
   await prisma.$transaction(async (tx) => {
     if (isUp) {
       if (monitor.status === "DOWN") {
@@ -99,6 +102,7 @@ export const monitorWorkerProcessor = async (job: any) => {
           status: "DOWN",
           incidentId: incident.id,
           userId: monitor.userId,
+          url: monitor.url,
         });
       } else {
         await tx.monitor.update({
@@ -109,3 +113,10 @@ export const monitorWorkerProcessor = async (job: any) => {
     }
   });
 };
+const worker = new Worker("monitor-pings", monitorWorkerProcessor, {
+  connection: redisConfiguration,
+  limiter: {
+    max: 10, // Process max 10 jobs
+    duration: 1000, // Per 1 second
+  },
+});
