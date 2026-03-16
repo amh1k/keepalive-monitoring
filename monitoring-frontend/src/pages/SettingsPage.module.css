@@ -1,0 +1,86 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 700px;
+  animation: fadeIn 0.25s ease;
+}
+
+.header { display: flex; flex-direction: column; gap: var(--space-1); }
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sectionDesc {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.errorBox {
+  display: block;
+  font-size: 13px;
+  color: var(--color-down);
+  background: var(--color-down-bg);
+  border: 1px solid rgba(248,81,73,0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+}
+
+.successBox {
+  display: block;
+  font-size: 13px;
+  color: var(--color-up);
+  background: var(--color-up-bg);
+  border: 1px solid rgba(63,185,80,0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+}
+
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.infoList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.infoList li {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  padding-left: var(--space-1);
+}
+
+.infoList strong {
+  color: var(--color-text-primary);
+}

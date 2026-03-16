@@ -1,0 +1,68 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 1200px;
+  animation: fadeIn 0.25s ease;
+}
+
+.header { display: flex; flex-direction: column; gap: var(--space-1); }
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+
+.skeletonCard {
+  height: 84px;
+  border-radius: var(--radius-lg);
+}
+
+.chartsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+@media (max-width: 768px) {
+  .chartsRow { grid-template-columns: 1fr; }
+}
+
+.chartCard { display: flex; flex-direction: column; gap: var(--space-4); }
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.chartSkeleton {
+  height: 220px;
+  border-radius: var(--radius-md);
+}
+
+.alertSkeleton {
+  height: 140px;
+  border-radius: var(--radius-md);
+}
+
+.alertsCard { display: flex; flex-direction: column; gap: var(--space-4); }
+
+.empty {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: var(--space-8) 0;
+}

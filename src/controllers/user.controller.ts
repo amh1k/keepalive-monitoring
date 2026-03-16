@@ -130,3 +130,14 @@ export const logoutUser = async (req: Request, res: Response) => {
       message: "User logged out successfully",
     });
 };
+
+export const getCurrentUser = async (req: Request, res: Response) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  return res.status(200).json({
+    message: "User fetched successfully",
+    user: req.user,
+  });
+};
