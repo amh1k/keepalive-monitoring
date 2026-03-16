@@ -1,0 +1,45 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  position: relative;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ping {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: ping 1.2s ease-in-out infinite;
+}
+
+.up {
+  background: var(--color-up-bg);
+  color: var(--color-up);
+}
+.up .dot { background: var(--color-up); }
+
+.down {
+  background: var(--color-down-bg);
+  color: var(--color-down);
+}
+.down .dot { background: var(--color-down); }
+
+.pending {
+  background: var(--color-pending-bg);
+  color: var(--color-pending);
+}
+.pending .dot { background: var(--color-pending); }
+.pending .ping { background: var(--color-pending); opacity: 0.5; }

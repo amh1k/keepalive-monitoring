@@ -2,6 +2,51 @@ import express, { Request, Response } from "express";
 import { prisma } from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+export const refreshAccessToken = async (req: Request, res: Response) => {
+  const incomingRefreshToken = req.cookies?.refreshToken;
+  if (!incomingRefreshToken) {
+    return res.status(401).json({
+      message: "Unauthorized: No refresh token",
+      code: "TOKEN_INVALID",
+    });
+  }
+  try {
+    const decoded = jwt.verify(
+      incomingRefreshToken,
+      process.env.REFRESH_TOKEN_SECRET!,
+    ) as { id: string };
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+    });
+
+    if (!user || user.refreshToken !== incomingRefreshToken) {
+      return res.status(401).json({
+        message: "Refresh token is invalid or has been used",
+        code: "TOKEN_INVALID",
+      });
+    }
+
+    const { accessToken, refreshToken: newRefreshToken } =
+      await generateAccessAndRefreshToken(user.id);
+
+    const options = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: true as const,
+    };
+
+    return res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", newRefreshToken, options)
+      .json({ message: "Token refreshed successfully" });
+  } catch (error) {
+    return res.status(401).json({
+      message: "Invalid or expired refresh token",
+      code: "TOKEN_INVALID",
+    });
+  }
+};
 
 const generateAccessAndRefreshToken = async (userId: string) => {
   const user = await prisma.user.findUnique({ where: { id: userId } });
@@ -100,7 +145,6 @@ export const loginUser = async (req: Request, res: Response) => {
         message: "User logged in successfully",
         user: { id: user.id, email: user.email },
         accessToken,
-        refreshToken,
       });
   } catch (error) {
     return res.status(500).json({
@@ -120,7 +164,7 @@ export const logoutUser = async (req: Request, res: Response) => {
   });
   const options = {
     httpOnly: true,
-    secure: process.env.NODE_ENV! == "production",
+    secure: process.env.NODE_ENV !== "production",
   };
   return res
     .status(200)
@@ -129,4 +173,15 @@ export const logoutUser = async (req: Request, res: Response) => {
     .json({
       message: "User logged out successfully",
     });
+};
+
+export const getCurrentUser = async (req: Request, res: Response) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  return res.status(200).json({
+    message: "User fetched successfully",
+    user: req.user,
+  });
 };
