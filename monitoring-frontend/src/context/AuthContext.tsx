@@ -1,6 +1,13 @@
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
-import { authApi } from '../api/auth.api';
-import type { User } from '../types';
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+  type ReactNode,
+} from "react";
+import { authApi } from "../api/auth.api";
+import type { User } from "../types";
 
 interface AuthContextValue {
   user: User | null;
@@ -36,16 +43,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     initAuth();
   }, [setUser]);
 
-  const login = useCallback(async (email: string, password: string) => {
-    setIsLoading(true);
-    try {
-      const res = await authApi.login(email, password);
-      const { user: u } = res.data as { user: User };
-      setUser(u);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [setUser]);
+  const login = useCallback(
+    async (email: string, password: string) => {
+      setIsLoading(true);
+      try {
+        const res = await authApi.login(email, password);
+        const { user: u } = res.data as { user: User };
+        setUser(u);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [setUser],
+  );
 
   const logout = useCallback(async () => {
     try {
@@ -64,6 +74,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within <AuthProvider>');
+  if (!ctx) throw new Error("useAuth must be used within <AuthProvider>");
   return ctx;
 }

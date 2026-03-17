@@ -21,7 +21,9 @@ const processQueue = (error: unknown) => {
 const clearAuthAndRedirect = () => {
   isRefreshing = false;
   failedQueue = [];
-  window.location.href = "/login";
+  if (window.location.pathname !== "/login") {
+    window.location.href = "/login";
+  }
 };
 
 apiClient.interceptors.response.use(
