@@ -11,13 +11,21 @@
 
 ## 📸 Overview & UI
 
-````carousel
-![Dashboard Overview](./docs/images/dashboard.png)
-<!-- slide -->
-![SSL Monitoring In Action](./docs/images/monitors.png)
-<!-- slide -->
-![Notification Settings](./docs/images/settings.png)
-````
+```carousel
+## 📸 Overview & UI
+
+<table>
+  <tr>
+    <td><img src="./docs/images/dashboard.png" alt="Dashboard" width="100%"/></td>
+    <td><img src="./docs/images/monitors.png" alt="Monitors" width="100%"/></td>
+
+  </tr>
+  <tr>
+    <td align="center">Dashboard</td>
+    <td align="center">SSL Monitoring</td>
+  </tr>
+</table>
+```
 
 ---
 
@@ -37,6 +45,7 @@
 Keepalive utilizes a modern, event-driven architecture to ensure reliability even under load.
 
 ### 🧩 Components:
+
 - **Frontend**: React 19 (Vite), TanStack Query (v5), CSS Modules.
 - **API Engine**: Node.js Express server with Zod for robust validation.
 - **Persistence**: PostgreSQL managed via Prisma ORM.
@@ -47,11 +56,13 @@ Keepalive utilizes a modern, event-driven architecture to ensure reliability eve
 ## 🛠️ Getting Started
 
 ### Prerequisites:
+
 - **Node.js**: v20 or higher
 - **Docker**: For running Postgres and Redis
 - **npm / yarn**: Package manager
 
 ### 1. Clone & Install
+
 ```bash
 git clone https://github.com/your-username/keepalive.git
 cd keepalive
@@ -60,7 +71,9 @@ cd monitoring-frontend && npm install
 ```
 
 ### 2. Environment Setup
+
 Create a `.env` file in the root directory:
+
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/keepalive"
 REDIS_HOST="localhost"
@@ -69,19 +82,23 @@ JWT_SECRET="your_secret_here"
 ```
 
 ### 3. Spin up Infrastructure
+
 ```bash
 docker-compose up -d
 npx prisma migrate dev
 ```
 
 ### 4. Run the Application
+
 Start the backend and workers:
+
 ```bash
 # In the root directory
 npm run dev (or npx tsx src/index.ts)
 ```
 
 Start the frontend:
+
 ```bash
 # In monitoring-frontend directory
 npm run dev
