@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../lib/prisma.js";
+import { False } from "../../generated/prisma/internal/prismaNamespace";
 
 export const getAllCounts = async (req: Request, res: Response) => {
   const userId = req?.user?.id;
@@ -19,7 +20,7 @@ export const getAllCounts = async (req: Request, res: Response) => {
         prisma.check.findMany({
           where: {
             monitor: { userId },
-            statusCode: { gte: 400 },
+            isUp: false,
           },
           orderBy: { timestamp: "desc" },
           take: 5,

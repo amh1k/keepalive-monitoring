@@ -4,6 +4,7 @@ export interface User {
 }
 
 export type MonitorStatus = 'UP' | 'DOWN' | 'PENDING';
+export type SslStatus = 'VALID' | 'INVALID' | 'EXPIRING_SOON';
 
 export interface Check {
   id: string;
@@ -29,6 +30,10 @@ export interface Monitor {
   isActive: boolean;
   userId: string;
   createdAt: string;
+  sslStatus: SslStatus | null;
+  sslExpirationDate: string | null;
+  sslIssuer: string | null;
+  sslLastCheck: string | null;
   checks: Check[];
 }
 

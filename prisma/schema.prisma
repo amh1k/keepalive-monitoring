@@ -44,6 +44,18 @@ model Monitor {
   checks           Check[]
   incidents        Incident[]
   createdAt        DateTime    @default(now())
+  
+  // SSL monitoring fields
+  sslStatus        SslStatus?
+  sslExpirationDate DateTime?
+  sslIssuer        String?
+  sslLastCheck     DateTime?
+}
+
+enum SslStatus {
+  VALID
+  INVALID
+  EXPIRING_SOON
 }
 
 enum MonitorStatus {

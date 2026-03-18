@@ -43,6 +43,20 @@ function MonitorCard({ monitor }: { monitor: Monitor }) {
         </div>
         <MonitorStatusBadge status={monitor.status} />
       </div>
+      {monitor.sslStatus && (
+        <div className={`${styles.sslBadge} ${
+          monitor.sslStatus === 'VALID' ? styles.sslValid : 
+          monitor.sslStatus === 'EXPIRING_SOON' ? styles.sslExpiring : 
+          styles.sslInvalid
+        }`}>
+          <span>{monitor.sslStatus === 'VALID' ? '🔒' : '⚠️'} SSL {monitor.sslStatus.replace('_', ' ')}</span>
+          {monitor.sslExpirationDate && (
+            <span style={{ fontSize: '10px', opacity: 0.8, marginLeft: '4px' }}>
+              • Exp: {new Date(monitor.sslExpirationDate).toLocaleDateString()}
+            </span>
+          )}
+        </div>
+      )}
       <div className={styles.cardMeta}>
         <span className={styles.metaItem}>
           <span className={styles.metaLabel}>Last check</span>
