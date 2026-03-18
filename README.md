@@ -37,6 +37,10 @@
       <img src="./docs/images/settings.png" alt="Settings — Discord and Slack webhook configuration" width="50%"/>
       <p align="center"><sub>Settings — configure Discord, Slack, Email, or custom webhook notification channels</sub></p>
     </td>
+     <td colspan="2">
+      <img src="./docs/images/login.png" alt="Login Page" width="50%"/>
+      <p align="center"><sub>Login Page</sub></p>
+    </td>
   </tr>
 </table>
 
