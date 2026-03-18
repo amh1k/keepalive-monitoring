@@ -2,6 +2,11 @@ import express, { Request, Response } from "express";
 import { prisma } from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+const cookieOptions = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: true as const,
+};
 export const refreshAccessToken = async (req: Request, res: Response) => {
   const incomingRefreshToken = req.cookies?.refreshToken;
   if (!incomingRefreshToken) {
@@ -82,7 +87,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
   try {
     const existingUser = await prisma.user.findUnique({
-      where: { email: email },
+      where: { email },
     });
 
     if (existingUser) {
@@ -90,16 +95,25 @@ export const registerUser = async (req: Request, res: Response) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await prisma.user.create({
-      data: {
-        email: email,
-        password: hashedPassword,
-      },
+      data: { email, password: hashedPassword },
     });
+
+    // Auto-login after registration — generates fresh cookies
+    // clears any previously logged-in user's session from the browser
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+      user.id,
+    );
 
     return res
       .status(201)
-      .json({ message: "User created successfully", userId: user.id });
+      .cookie("accessToken", accessToken, cookieOptions)
+      .cookie("refreshToken", refreshToken, cookieOptions)
+      .json({
+        message: "User created successfully",
+        user: { id: user.id, email: user.email },
+      });
   } catch (error) {
     return res.status(500).json({
       message: "Registration failed",

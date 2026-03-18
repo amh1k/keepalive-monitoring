@@ -82,7 +82,7 @@ export const getUptimePercentage = async (req: Request, res: Response) => {
         const successfulStats = await prisma.check.count({
           where: {
             monitorId: m.id,
-            statusCode: { lt: 400 },
+            isUp: true,
           },
         });
         const total = m._count.checks;

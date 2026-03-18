@@ -1,16 +1,16 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 import monitorRouter from "./routes/monitor.routes.js";
 import userRouter from "./routes/user.routes.js";
 import cookieParser from "cookie-parser";
 import notificationRouter from "./routes/notification.route.js";
 import statsRouter from "./routes/stats.route.js";
-import { redisConfiguration } from "./lib/redis.js";
-import Redis from "ioredis";
+import { redis } from "./lib/redis.js";
 import rateLimit from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
-import { redis } from "./lib/redis.js";
+
 const app = express();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -20,29 +20,49 @@ app.use(
   }),
 );
 
-const globalLimiter = rateLimit({
+// ─── Rate Limiter ─────────────────────────────────────────────────────────────
+// Single limiter — one counter per request, double count impossible
+// req.path inside app.use("/api/") is relative e.g. "/v1/user/login"
+
+const SKIP_ROUTES = ["/v1/user/me", "/v1/user/refresh-token"];
+
+const AUTH_ROUTES = ["/v1/user/login", "/v1/user/register"];
+
+const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: process.env.NODE_ENV === "test" ? 10000 : 100, // Higher limit for tests
+  max: (req) => {
+    if (AUTH_ROUTES.includes(req.path)) return 20;
+    return 100;
+  },
   standardHeaders: true,
   legacyHeaders: false,
   message: {
     status: 429,
     message: "Too many requests, please try again later.",
   },
+  skip: (req) => {
+    if (process.env.NODE_ENV === "test") return true;
+    return SKIP_ROUTES.includes(req.path);
+  },
   store: new RedisStore({
     // @ts-expect-error - ioredis and rate-limit-redis type mismatch
     sendCommand: (...args: string[]) => redis.call(...args),
   }),
 });
-app.use("/api/", globalLimiter);
+
+app.use("/api/", limiter);
+
+// ─── Routes ───────────────────────────────────────────────────────────────────
+
 app.use("/api/v1/monitor", monitorRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/notifications", notificationRouter);
 app.use("/api/v1/stats", statsRouter);
 
+// ─── Health Check ─────────────────────────────────────────────────────────────
+
 app.get("/health", async (_req, res) => {
   try {
-    // Check if Redis is alive
     await redis.ping();
     res.status(200).json({
       status: "UP",
@@ -50,9 +70,10 @@ app.get("/health", async (_req, res) => {
       services: { redis: "CONNECTED" },
     });
   } catch (err) {
-    res
-      .status(503)
-      .json({ status: "DOWN", services: { redis: "DISCONNECTED" } });
+    res.status(503).json({
+      status: "DOWN",
+      services: { redis: "DISCONNECTED" },
+    });
   }
 });
 
