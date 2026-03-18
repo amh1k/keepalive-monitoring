@@ -6,6 +6,29 @@ import RegisterPage from "./pages/RegisterPage";
 import DashboardPage from "./pages/DashboardPage";
 import MonitorsPage from "./pages/MonitorsPage";
 import SettingsPage from "./pages/SettingsPage";
+const LoadingScreen = () => (
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "100vh",
+      background: "var(--color-bg)",
+    }}
+  >
+    <div
+      style={{
+        width: 28,
+        height: 28,
+        border: "2px solid var(--color-border)",
+        borderTopColor: "var(--color-accent)",
+        borderRadius: "50%",
+        animation: "spin 0.7s linear infinite",
+      }}
+    />
+    <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+  </div>
+);
 
 // AFTER — waits for session verification before deciding
 function AuthGuard() {
@@ -13,7 +36,7 @@ function AuthGuard() {
 
   // Still verifying session with server — render nothing
   // prevents premature redirect to /login
-  if (isLoading) return <p>We are loading</p>; // or a full-page spinner
+  if (isLoading) return <LoadingScreen />; // or a full-page spinner
 
   if (!user) return <Navigate to="/login" replace />;
   return <Outlet />;
@@ -22,7 +45,7 @@ function AuthGuard() {
 function GuestGuard() {
   const { user, isLoading } = useAuth();
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <LoadingScreen />;
 
   if (user) return <Navigate to="/dashboard" replace />;
   return <Outlet />;

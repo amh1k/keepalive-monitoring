@@ -3,6 +3,8 @@ import { httpClient } from "../lib/http.js";
 import { notificationQueue } from "../queues/notification.queue";
 import { Worker } from "bullmq";
 import { redisConfiguration } from "../lib/redis.js";
+import { checkSslDetails } from "../lib/ssl.js";
+import { detectLatencyAnomaly } from "../services/anomaly.service.js";
 
 export const monitorWorkerProcessor = async (job: any) => {
   const { monitorId } = job.data;
@@ -32,6 +34,16 @@ export const monitorWorkerProcessor = async (job: any) => {
 
   const latency = Date.now() - start;
 
+  // SSL Check if HTTPS
+  let sslData = null;
+  if (monitor.url.startsWith("https://")) {
+    sslData = await checkSslDetails(monitor.url);
+  }
+  let anomalyResult = null;
+  if (isUp) {
+    anomalyResult = await detectLatencyAnomaly(monitorId, latency);
+  }
+
   // 1. Create the check record first (keeps the transaction lean)
   await prisma.check.create({
     data: {
@@ -40,8 +52,20 @@ export const monitorWorkerProcessor = async (job: any) => {
       latency,
       isUp,
       errorMessage: isUp ? null : responseData.message,
+      isAnomaly: anomalyResult?.isAnomaly ?? false,
     },
   });
+  if (anomalyResult?.isAnomaly) {
+    await notificationQueue.add(`notify-anomaly-${monitorId}-${Date.now()}`, {
+      monitorName: monitor.name,
+      status: "ANOMALY",
+      userId: monitor.userId,
+      url: monitor.url,
+      latency,
+      mean: Math.round(anomalyResult.mean!),
+      zScore: anomalyResult.zScore!.toFixed(2),
+    });
+  }
 
   // 2. Handle State Transitions in Transaction
 
@@ -51,7 +75,17 @@ export const monitorWorkerProcessor = async (job: any) => {
         // RECOVERY LOGIC
         await tx.monitor.update({
           where: { id: monitorId },
-          data: { status: "UP", currentFails: 0, lastCheck: new Date() },
+          data: {
+            status: "UP",
+            currentFails: 0,
+            lastCheck: new Date(),
+            ...(sslData && {
+              sslStatus: sslData.status,
+              sslExpirationDate: sslData.expirationDate,
+              sslIssuer: sslData.issuer,
+              sslLastCheck: new Date(),
+            }),
+          },
         });
 
         await tx.incident.updateMany({
@@ -68,7 +102,17 @@ export const monitorWorkerProcessor = async (job: any) => {
         // Heartbeat update only
         await tx.monitor.update({
           where: { id: monitorId },
-          data: { currentFails: 0, status: "UP", lastCheck: new Date() },
+          data: {
+            currentFails: 0,
+            status: "UP",
+            lastCheck: new Date(),
+            ...(sslData && {
+              sslStatus: sslData.status,
+              sslExpirationDate: sslData.expirationDate,
+              sslIssuer: sslData.issuer,
+              sslLastCheck: new Date(),
+            }),
+          },
         });
       }
     } else {
@@ -86,6 +130,12 @@ export const monitorWorkerProcessor = async (job: any) => {
             status: "DOWN",
             currentFails: newFailCount,
             lastCheck: new Date(),
+            ...(sslData && {
+              sslStatus: sslData.status,
+              sslExpirationDate: sslData.expirationDate,
+              sslIssuer: sslData.issuer,
+              sslLastCheck: new Date(),
+            }),
           },
         });
 
@@ -107,7 +157,16 @@ export const monitorWorkerProcessor = async (job: any) => {
       } else {
         await tx.monitor.update({
           where: { id: monitorId },
-          data: { currentFails: newFailCount, lastCheck: new Date() },
+          data: {
+            currentFails: newFailCount,
+            lastCheck: new Date(),
+            ...(sslData && {
+              sslStatus: sslData.status,
+              sslExpirationDate: sslData.expirationDate,
+              sslIssuer: sslData.issuer,
+              sslLastCheck: new Date(),
+            }),
+          },
         });
       }
     }

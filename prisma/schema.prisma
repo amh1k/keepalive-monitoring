@@ -31,6 +31,7 @@ model Monitor {
   timeout          Int         @default(10000) // Timeout in ms
   failureThreshold Int         @default(3)     // Alert after X failures
   currentFails     Int         @default(0)
+  
 
   
   // High-performance status tracking
@@ -44,6 +45,18 @@ model Monitor {
   checks           Check[]
   incidents        Incident[]
   createdAt        DateTime    @default(now())
+  
+  // SSL monitoring fields
+  sslStatus        SslStatus?
+  sslExpirationDate DateTime?
+  sslIssuer        String?
+  sslLastCheck     DateTime?
+}
+
+enum SslStatus {
+  VALID
+  INVALID
+  EXPIRING_SOON
 }
 
 enum MonitorStatus {
@@ -61,6 +74,7 @@ model Check {
   isUp       Boolean
   errorMessage String?
   timestamp  DateTime @default(now())
+  isAnomaly    Boolean  @default(false)
 
   @@index([monitorId, timestamp]) // Optimized for dashboard charts
 }
