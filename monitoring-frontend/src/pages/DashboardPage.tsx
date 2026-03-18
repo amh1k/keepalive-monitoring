@@ -14,9 +14,9 @@ export default function DashboardPage() {
       const res = await statsApi.getCounts();
       return res.data.data;
     },
-    staleTime: 0, // always treat as stale — always update on refetch
+    staleTime: 0,
     refetchInterval: 60_000,
-    refetchIntervalInBackground: true, // keep polling even if tab loses focus
+    refetchIntervalInBackground: true,
   });
 
   const uptimeQuery = useQuery({
@@ -36,10 +36,11 @@ export default function DashboardPage() {
       const res = await statsApi.getLatency();
       return res.data.data;
     },
-    staleTime: 0, // critical for the chart — never cache latency
-    refetchInterval: 30_000, // latency is more real-time than counts/uptime
+    staleTime: 0,
+    refetchInterval: 30_000,
     refetchIntervalInBackground: true,
   });
+
   const statusMap = new Map<string, number>();
   countsQuery.data?.monitorStatus?.forEach((s: MonitorStatusCount) => {
     statusMap.set(s.status, s._count);
@@ -57,10 +58,10 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* Stats Row */}
+      {/* Stats Row — 5 cards */}
       <div className={styles.statsGrid}>
         {countsQuery.isLoading ? (
-          Array.from({ length: 4 }).map((_, i) => (
+          Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className={`skeleton ${styles.skeletonCard}`} />
           ))
         ) : (
@@ -86,6 +87,12 @@ export default function DashboardPage() {
               label="Notification Channels"
               value={countsQuery.data?.counts.channels ?? 0}
               icon="🔔"
+            />
+            <StatCard
+              label="Anomalies (24h)"
+              value={(countsQuery.data?.counts as any).anomalies ?? 0}
+              icon="⚠"
+              accent="pending"
             />
           </>
         )}
@@ -123,6 +130,28 @@ export default function DashboardPage() {
           <AlertsList alerts={countsQuery.data?.alerts ?? []} />
         )}
       </section>
+
+      {/* Anomalies — only renders if there are any in the last 24h */}
+      {((countsQuery.data as any)?.anomalies?.length ?? 0) > 0 && (
+        <section className={`card ${styles.alertsCard}`}>
+          <h2 className={styles.sectionTitle}>Latency Anomalies (24h)</h2>
+          {countsQuery.isLoading ? (
+            <div className={`skeleton ${styles.alertSkeleton}`} />
+          ) : (
+            <div className={styles.anomalyList}>
+              {(countsQuery.data as any)?.anomalies.map((a: any) => (
+                <div key={a.id} className={styles.anomalyItem}>
+                  <span className={styles.anomalyName}>{a.monitor.name}</span>
+                  <span className={styles.anomalyLatency}>{a.latency}ms</span>
+                  <span className={styles.anomalyTime}>
+                    {new Date(a.timestamp).toLocaleTimeString()}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { notificationQueue } from "../queues/notification.queue";
 import { Worker } from "bullmq";
 import { redisConfiguration } from "../lib/redis.js";
 import { checkSslDetails } from "../lib/ssl.js";
+import { detectLatencyAnomaly } from "../services/anomaly.service.js";
 
 export const monitorWorkerProcessor = async (job: any) => {
   const { monitorId } = job.data;
@@ -38,6 +39,10 @@ export const monitorWorkerProcessor = async (job: any) => {
   if (monitor.url.startsWith("https://")) {
     sslData = await checkSslDetails(monitor.url);
   }
+  let anomalyResult = null;
+  if (isUp) {
+    anomalyResult = await detectLatencyAnomaly(monitorId, latency);
+  }
 
   // 1. Create the check record first (keeps the transaction lean)
   await prisma.check.create({
@@ -47,8 +52,20 @@ export const monitorWorkerProcessor = async (job: any) => {
       latency,
       isUp,
       errorMessage: isUp ? null : responseData.message,
+      isAnomaly: anomalyResult?.isAnomaly ?? false,
     },
   });
+  if (anomalyResult?.isAnomaly) {
+    await notificationQueue.add(`notify-anomaly-${monitorId}-${Date.now()}`, {
+      monitorName: monitor.name,
+      status: "ANOMALY",
+      userId: monitor.userId,
+      url: monitor.url,
+      latency,
+      mean: Math.round(anomalyResult.mean!),
+      zScore: anomalyResult.zScore!.toFixed(2),
+    });
+  }
 
   // 2. Handle State Transitions in Transaction
 

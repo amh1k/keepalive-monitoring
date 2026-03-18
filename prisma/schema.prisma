@@ -31,6 +31,7 @@ model Monitor {
   timeout          Int         @default(10000) // Timeout in ms
   failureThreshold Int         @default(3)     // Alert after X failures
   currentFails     Int         @default(0)
+  
 
   
   // High-performance status tracking
@@ -73,6 +74,7 @@ model Check {
   isUp       Boolean
   errorMessage String?
   timestamp  DateTime @default(now())
+  isAnomaly    Boolean  @default(false)
 
   @@index([monitorId, timestamp]) // Optimized for dashboard charts
 }

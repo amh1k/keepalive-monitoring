@@ -3,8 +3,8 @@ export interface User {
   email: string;
 }
 
-export type MonitorStatus = 'UP' | 'DOWN' | 'PENDING';
-export type SslStatus = 'VALID' | 'INVALID' | 'EXPIRING_SOON';
+export type MonitorStatus = "UP" | "DOWN" | "PENDING";
+export type SslStatus = "VALID" | "INVALID" | "EXPIRING_SOON";
 
 export interface Check {
   id: string;
@@ -45,7 +45,7 @@ export interface Incident {
   cause: string | null;
 }
 
-export type ChannelType = 'EMAIL' | 'SLACK' | 'DISCORD' | 'WEBHOOK';
+export type ChannelType = "EMAIL" | "SLACK" | "DISCORD" | "WEBHOOK";
 
 export interface NotificationChannel {
   id: string;
@@ -63,7 +63,10 @@ export interface UptimeStat {
 
 export interface LatencyDataPoint {
   timestamp: string;
-  _avg: { latency: number | null };
+  _avg: {
+    latency: number | null;
+  };
+  hasAnomaly: boolean; // ← add this
 }
 
 export interface MonitorStatusCount {
@@ -77,7 +80,7 @@ export interface RecentAlert {
   timestamp: string;
   monitor: { name: string };
 }
-
+// still using old CountsData here will fix later
 export interface CountsData {
   counts: { monitors: number; channels: number };
   monitorStatus: MonitorStatusCount[];
