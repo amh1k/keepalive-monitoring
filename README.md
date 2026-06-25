@@ -125,7 +125,7 @@ Create a `.env` file in the root directory:
 
 ```env
 # Database
-DATABASE_URL="postgresql://user:password@localhost:5432/keepalive"
+DATABASE_URL="postgresql://user:password@localhost:5433/keepalive"
 
 # Redis
 REDIS_HOST="localhost"
@@ -147,6 +147,9 @@ FRONTEND_URL="http://localhost:5173"
 ```bash
 docker-compose up -d
 ```
+
+PostgreSQL is exposed on host port `5433` to avoid conflicts with a local
+PostgreSQL installation. Inside Docker, it continues to use port `5432`.
 
 ### 4. Run Migrations
 
