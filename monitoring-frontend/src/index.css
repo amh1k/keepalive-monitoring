@@ -1,43 +1,44 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
 :root {
-  --color-bg: #f4f0e6;
-  --color-surface: #fffdf7;
-  --color-surface-2: #e8e2d4;
-  --color-surface-3: #d7cfbe;
-  --color-border: #181818;
-  --color-border-subtle: #181818;
+  /* Gruvbox dark — warm, low-glare, and deliberately earthy */
+  --color-bg: #282828;
+  --color-surface: #3c3836;
+  --color-surface-2: #504945;
+  --color-surface-3: #665c54;
+  --color-border: #1d2021;
+  --color-border-subtle: #1d2021;
   --color-border-highlight: transparent;
 
-  --color-text-primary: #181818;
-  --color-text-secondary: #4d4a43;
-  --color-text-muted: #777167;
-  --color-text-inverse: #fffdf7;
+  --color-text-primary: #ebdbb2;
+  --color-text-secondary: #d5c4a1;
+  --color-text-muted: #a89984;
+  --color-text-inverse: #282828;
 
-  --color-accent: #ff5c35;
-  --color-accent-hover: #ff7a59;
-  --color-accent-dim: #d63d1d;
-  --color-accent-bg: #ffb4a2;
-  --color-accent-border: #181818;
-  --color-yellow: #ffd84d;
-  --color-blue: #91c8ff;
-  --color-pink: #ff9bd2;
-  --color-purple: #b9a3ff;
+  --color-accent: #d65d0e;
+  --color-accent-hover: #fe8019;
+  --color-accent-dim: #af3a03;
+  --color-accent-bg: #7c3f17;
+  --color-accent-border: #1d2021;
+  --color-yellow: #d79921;
+  --color-blue: #458588;
+  --color-aqua: #689d6a;
+  --color-purple: #8f3f71;
 
-  --color-gold: #d79b00;
-  --color-gold-light: #ffd84d;
-  --color-gold-bg: #fff0a8;
-  --color-gold-border: #181818;
+  --color-gold: #fabd2f;
+  --color-gold-light: #fabd2f;
+  --color-gold-bg: #665c24;
+  --color-gold-border: #1d2021;
 
-  --color-up: #146b3a;
-  --color-up-bg: #9fe6b8;
-  --color-up-border: #181818;
-  --color-down: #9c1c1c;
-  --color-down-bg: #ff9b96;
-  --color-down-border: #181818;
-  --color-pending: #704d00;
-  --color-pending-bg: #ffd84d;
-  --color-pending-border: #181818;
+  --color-up: #b8bb26;
+  --color-up-bg: #4f5b29;
+  --color-up-border: #1d2021;
+  --color-down: #fb4934;
+  --color-down-bg: #6b302b;
+  --color-down-border: #1d2021;
+  --color-pending: #fabd2f;
+  --color-pending-bg: #665c24;
+  --color-pending-border: #1d2021;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -55,11 +56,11 @@
   --radius-xl: 6px;
   --radius-full: 9999px;
 
-  --shadow-sm: 3px 3px 0 #181818;
-  --shadow-md: 5px 5px 0 #181818;
-  --shadow-lg: 8px 8px 0 #181818;
-  --shadow-accent: 5px 5px 0 #181818;
-  --shadow-gold: 5px 5px 0 #181818;
+  --shadow-sm: 3px 3px 0 #1d2021;
+  --shadow-md: 5px 5px 0 #1d2021;
+  --shadow-lg: 8px 8px 0 #1d2021;
+  --shadow-accent: 5px 5px 0 #1d2021;
+  --shadow-gold: 5px 5px 0 #1d2021;
   --transition: 140ms ease;
   --transition-slow: 280ms ease;
   --sidebar-width: 248px;
@@ -90,8 +91,8 @@ body {
   color: var(--color-text-primary);
   background-color: var(--color-bg);
   background-image:
-    linear-gradient(rgba(24, 24, 24, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(24, 24, 24, 0.045) 1px, transparent 1px);
+    linear-gradient(rgba(235, 219, 178, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(235, 219, 178, 0.035) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -166,10 +167,10 @@ select:focus-visible {
   box-shadow: none;
 }
 
-.btn-primary { background: var(--color-yellow); }
-.btn-primary:hover { background: #ffe474; }
+.btn-primary { background: var(--color-yellow); color: var(--color-text-inverse); }
+.btn-primary:hover { background: #fabd2f; }
 .btn-secondary { background: var(--color-surface); }
-.btn-secondary:hover { background: var(--color-blue); }
+.btn-secondary:hover { background: var(--color-blue); color: #fbf1c7; }
 .btn-ghost { background: transparent; box-shadow: none; }
 .btn-danger { background: var(--color-down-bg); color: var(--color-text-primary); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
@@ -204,11 +205,11 @@ select:focus-visible {
 
 .form-select { cursor: pointer; }
 .form-input:hover,
-.form-select:hover { background: #fff; }
+.form-select:hover { background: var(--color-surface-2); }
 .form-input:focus,
 .form-select:focus {
   outline: none;
-  background: #fff;
+  background: var(--color-surface-2);
   box-shadow: 4px 4px 0 var(--color-blue);
 }
 .form-input::placeholder { color: var(--color-text-muted); }
@@ -251,7 +252,7 @@ select:focus-visible {
 .skeleton {
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
-  background: repeating-linear-gradient(135deg, #ddd5c5, #ddd5c5 10px, #eee9de 10px, #eee9de 20px);
+  background: repeating-linear-gradient(135deg, #3c3836, #3c3836 10px, #504945 10px, #504945 20px);
   animation: skeleton-pulse 1.2s ease-in-out infinite;
 }
 

@@ -2,8 +2,8 @@
 .dot { position: relative; width: 7px; height: 7px; border: 1px solid var(--color-border); border-radius: 50%; flex-shrink: 0; }
 .ping { position: absolute; inset: 0; border-radius: 50%; animation: ping 1.2s ease-in-out infinite; }
 .up { background: var(--color-up-bg); }
-.up .dot { background: #2fb668; }
+.up .dot { background: #b8bb26; }
 .down { background: var(--color-down-bg); }
-.down .dot { background: #e53e3e; }
+.down .dot { background: #fb4934; }
 .pending { background: var(--color-pending-bg); }
-.pending .dot, .pending .ping { background: #d79b00; }
+.pending .dot, .pending .ping { background: #fabd2f; }

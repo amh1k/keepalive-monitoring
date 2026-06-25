@@ -1,12 +1,12 @@
-.page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--space-6); background-color: var(--color-yellow); background-image: linear-gradient(rgba(24,24,24,.1) 2px, transparent 2px), linear-gradient(90deg, rgba(24,24,24,.1) 2px, transparent 2px); background-size: 40px 40px; }
+.page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--space-6); background-color: var(--color-bg); background-image: linear-gradient(rgba(235,219,178,.06) 2px, transparent 2px), linear-gradient(90deg, rgba(235,219,178,.06) 2px, transparent 2px); background-size: 40px 40px; }
 .card { width: 100%; max-width: 440px; padding: var(--space-10) var(--space-8); border: 3px solid var(--color-border); background: var(--color-surface); box-shadow: 10px 10px 0 var(--color-border); animation: fadeIn .3s ease; }
 .logo { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-6); }
-.logoIcon { display: grid; place-items: center; width: 42px; height: 42px; border: 2px solid var(--color-border); background: var(--color-pink); box-shadow: 3px 3px 0 var(--color-border); font-size: 22px; }
+.logoIcon { display: grid; place-items: center; width: 42px; height: 42px; border: 2px solid var(--color-border); background: var(--color-accent); color: #fbf1c7; box-shadow: 3px 3px 0 var(--color-border); font-size: 22px; }
 .logoText { font-size: 20px; font-weight: 700; }
 .heading { margin-bottom: var(--space-2); font-size: 34px; font-weight: 700; letter-spacing: -.05em; line-height: 1; }
 .sub { margin-bottom: var(--space-6); font: 12px var(--font-mono); }
 .form { display: flex; flex-direction: column; gap: var(--space-4); }
 .serverError { display: block; padding: var(--space-3) var(--space-4); border: 2px solid var(--color-border); background: var(--color-down-bg); color: var(--color-down); font-size: 13px; font-weight: 700; }
 .footer { margin-top: var(--space-5); text-align: center; font-size: 13px; }
-.footer a { background: var(--color-pink); font-weight: 700; text-decoration: underline; }
+.footer a { color: #fabd2f; font-weight: 700; text-decoration: underline; }
 @media (max-width: 480px) { .page { padding: 18px; } .card { padding: var(--space-8) var(--space-5); box-shadow: 6px 6px 0 var(--color-border); } }

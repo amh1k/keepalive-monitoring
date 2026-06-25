@@ -6,8 +6,8 @@
 .skeletonCard { height: 150px; }
 .monitorCard { display: flex; flex-direction: column; gap: var(--space-4); transition: transform var(--transition), box-shadow var(--transition); }
 .monitorCard:nth-child(3n + 1) { background: var(--color-surface); }
-.monitorCard:nth-child(3n + 2) { background: #f6d6e8; }
-.monitorCard:nth-child(3n + 3) { background: #d8eaff; }
+.monitorCard:nth-child(3n + 2) { background: #45403d; }
+.monitorCard:nth-child(3n + 3) { background: #3f4b49; }
 .monitorCard:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--color-border); }
 .cardTop { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
 .cardInfo { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }

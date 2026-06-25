@@ -2,7 +2,7 @@
   width: var(--sidebar-width);
   min-width: var(--sidebar-width);
   height: 100vh;
-  background: var(--color-blue);
+  background: #32302f;
   border-right: 3px solid var(--color-border);
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@
   background: var(--color-yellow);
   box-shadow: 3px 3px 0 var(--color-border);
   font-size: 20px;
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse);
   line-height: 1;
 }
 
@@ -70,9 +70,9 @@
 }
 
 .active {
-  color: var(--color-text-primary) !important;
+  color: #fbf1c7 !important;
   border-color: var(--color-border) !important;
-  background: var(--color-pink) !important;
+  background: var(--color-accent) !important;
   box-shadow: 3px 3px 0 var(--color-border);
 }
 
