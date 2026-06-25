@@ -4,7 +4,7 @@ Keepalive is a self-hosted uptime monitor for HTTP services. It runs scheduled
 checks in background workers, records response times and outages, inspects TLS
 certificates, and presents the results in a React dashboard.
 
-![Keepalive dashboard](./docs/images/dashboard.png)
+![Keepalive dashboard](./docs/images/260625_23h30m10s_screenshot.png)
 
 ## What it does
 
@@ -22,21 +22,21 @@ certificates, and presents the results in a React dashboard.
 <table>
   <tr>
     <td width="50%">
-      <img src="./docs/images/dashboard.png" alt="Dashboard with uptime statistics and latency history" width="100%">
+      <img src="./docs/images/260625_23h30m10s_screenshot.png" alt="Dashboard with uptime statistics and latency history" width="100%">
       <p align="center"><sub>Dashboard</sub></p>
     </td>
     <td width="50%">
-      <img src="./docs/images/monitors.png" alt="Monitor list with status and certificate information" width="100%">
+      <img src="./docs/images/260625_23h29m38s_screenshot.png" alt="Monitor list with status and certificate information" width="100%">
       <p align="center"><sub>Monitors</sub></p>
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <img src="./docs/images/settings.png" alt="Notification channel settings" width="100%">
+      <img src="./docs/images/260625_23h29m23s_screenshot.png" alt="Notification channel settings" width="100%">
       <p align="center"><sub>Notification settings</sub></p>
     </td>
     <td width="50%">
-      <img src="./docs/images/login.png" alt="Keepalive login page" width="100%">
+      <img src="./docs/images/260625_23h30m30s_screenshot.png" alt="Keepalive login page" width="100%">
       <p align="center"><sub>Authentication</sub></p>
     </td>
   </tr>
