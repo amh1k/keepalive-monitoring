@@ -1,86 +1,14 @@
-.page {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-  max-width: 700px;
-  animation: fadeIn 0.25s ease;
-}
-
-.header { display: flex; flex-direction: column; gap: var(--space-1); }
-
-.title {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.subtitle {
-  font-size: 14px;
-  color: var(--color-text-secondary);
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.sectionTitle {
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.sectionDesc {
-  font-size: 13px;
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.errorBox {
-  display: block;
-  font-size: 13px;
-  color: var(--color-down);
-  background: var(--color-down-bg);
-  border: 1px solid rgba(248,81,73,0.2);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-}
-
-.successBox {
-  display: block;
-  font-size: 13px;
-  color: var(--color-up);
-  background: var(--color-up-bg);
-  border: 1px solid rgba(63,185,80,0.2);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-}
-
-.infoCard {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.infoList {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.infoList li {
-  font-size: 13px;
-  color: var(--color-text-secondary);
-  padding-left: var(--space-1);
-}
-
-.infoList strong {
-  color: var(--color-text-primary);
-}
+.page { display: flex; flex-direction: column; gap: var(--space-6); max-width: 780px; animation: fadeIn .25s ease; }
+.header { display: flex; flex-direction: column; gap: var(--space-1); padding-bottom: var(--space-4); border-bottom: 3px solid var(--color-border); }
+.title { font-size: clamp(32px, 5vw, 52px); font-weight: 700; letter-spacing: -.06em; line-height: .95; text-transform: uppercase; }
+.subtitle { font: 12px var(--font-mono); }
+.section, .infoCard { display: flex; flex-direction: column; gap: var(--space-4); }
+.sectionTitle { width: fit-content; padding: 4px 8px; border: 2px solid var(--color-border); background: var(--color-pink); box-shadow: 2px 2px 0 var(--color-border); font-size: 13px; font-weight: 700; text-transform: uppercase; }
+.sectionDesc { font-size: 13px; line-height: 1.6; }
+.form { display: flex; flex-direction: column; gap: var(--space-4); }
+.errorBox, .successBox { display: block; padding: var(--space-3) var(--space-4); border: 2px solid var(--color-border); font-size: 13px; font-weight: 700; }
+.errorBox { color: var(--color-down); background: var(--color-down-bg); }
+.successBox { color: var(--color-up); background: var(--color-up-bg); }
+.infoCard { background: var(--color-blue); }
+.infoList { display: flex; flex-direction: column; gap: var(--space-3); list-style: none; }
+.infoList li { padding-left: var(--space-1); font-size: 13px; }
